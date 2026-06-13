@@ -2,6 +2,7 @@ import { RedisCacheModule } from '@ghostfolio/api/app/redis-cache/redis-cache.mo
 import { ConfigurationModule } from '@ghostfolio/api/services/configuration/configuration.module';
 import { CryptocurrencyModule } from '@ghostfolio/api/services/cryptocurrency/cryptocurrency.module';
 import { AlphaVantageService } from '@ghostfolio/api/services/data-provider/alpha-vantage/alpha-vantage.service';
+import { ChinaLocalService } from '@ghostfolio/api/services/data-provider/china-local/china-local.service';
 import { CoinGeckoService } from '@ghostfolio/api/services/data-provider/coingecko/coingecko.service';
 import { EodHistoricalDataService } from '@ghostfolio/api/services/data-provider/eod-historical-data/eod-historical-data.service';
 import { FinancialModelingPrepService } from '@ghostfolio/api/services/data-provider/financial-modeling-prep/financial-modeling-prep.service';
@@ -9,7 +10,6 @@ import { GhostfolioService } from '@ghostfolio/api/services/data-provider/ghostf
 import { GoogleSheetsService } from '@ghostfolio/api/services/data-provider/google-sheets/google-sheets.service';
 import { ManualService } from '@ghostfolio/api/services/data-provider/manual/manual.service';
 import { RapidApiService } from '@ghostfolio/api/services/data-provider/rapid-api/rapid-api.service';
-import { YahooFinanceService } from '@ghostfolio/api/services/data-provider/yahoo-finance/yahoo-finance.service';
 import { FetchModule } from '@ghostfolio/api/services/fetch/fetch.module';
 import { MarketDataModule } from '@ghostfolio/api/services/market-data/market-data.module';
 import { PrismaModule } from '@ghostfolio/api/services/prisma/prisma.module';
@@ -37,6 +37,7 @@ import { DataProviderService } from './data-provider.service';
   providers: [
     AlphaVantageService,
     CoinGeckoService,
+    ChinaLocalService,
     DataProviderService,
     EodHistoricalDataService,
     FinancialModelingPrepService,
@@ -44,44 +45,43 @@ import { DataProviderService } from './data-provider.service';
     GoogleSheetsService,
     ManualService,
     RapidApiService,
-    YahooFinanceService,
     {
       inject: [
         AlphaVantageService,
         CoinGeckoService,
+        ChinaLocalService,
         EodHistoricalDataService,
         FinancialModelingPrepService,
         GhostfolioService,
         GoogleSheetsService,
         ManualService,
-        RapidApiService,
-        YahooFinanceService
+        RapidApiService
       ],
       provide: 'DataProviderInterfaces',
       useFactory: (
         alphaVantageService,
         coinGeckoService,
+        chinaLocalService,
         eodHistoricalDataService,
         financialModelingPrepService,
         ghostfolioService,
         googleSheetsService,
         manualService,
-        rapidApiService,
-        yahooFinanceService
+        rapidApiService
       ) => [
         alphaVantageService,
         coinGeckoService,
+        chinaLocalService,
         eodHistoricalDataService,
         financialModelingPrepService,
         ghostfolioService,
         googleSheetsService,
         manualService,
-        rapidApiService,
-        yahooFinanceService
+        rapidApiService
       ]
     },
     YahooFinanceDataEnhancerService
   ],
-  exports: [DataProviderService, ManualService, YahooFinanceService]
+  exports: [DataProviderService, ManualService]
 })
 export class DataProviderModule {}

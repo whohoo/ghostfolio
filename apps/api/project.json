@@ -58,6 +58,11 @@
       "executor": "@nx/js:node",
       "options": {
         "buildTarget": "api:build"
+      },
+      "configurations": {
+        "debug": {
+          "inspect": true
+        }
       }
     },
     "lint": {
