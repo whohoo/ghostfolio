@@ -450,7 +450,14 @@ export class DataProviderService implements OnModuleInit {
       symbol: string;
     }>[] = [];
     for (const { dataSource, symbol } of assetProfileIdentifiers) {
-      const dataProvider = this.getDataProvider(dataSource);
+      let dataProvider: DataProviderInterface;
+
+      try {
+        dataProvider = this.getDataProvider(dataSource);
+      } catch {
+        continue;
+      }
+
       if (dataProvider.canHandle(symbol)) {
         if (symbol === `${DEFAULT_CURRENCY}USX`) {
           const data: {

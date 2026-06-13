@@ -2,41 +2,72 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "args": [
-        "test",
-        "--codeCoverage=false",
-        "--testFile=${workspaceFolder}/apps/api/src/app/portfolio/portfolio-calculator-novn-buy-and-sell.spec.ts"
-      ],
-      "console": "internalConsole",
-      "cwd": "${workspaceFolder}",
-      "name": "Debug Jest",
-      "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx",
-      "request": "launch",
-      "type": "node"
+      "name": "Attach to Ghostfolio API",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "group": "Ghostfolio API",
+        "order": 1
+      }
     },
     {
-      "autoAttachChildProcesses": true,
-      "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}/apps/api",
-      "env": {
-        "GHOSTFOLIO_ENV_FILE": "${workspaceFolder}/.env"
-      },
-      "name": "Debug API",
-      "outFiles": ["${workspaceFolder}/dist/apps/api/**/*.js"],
-      "program": "${workspaceFolder}/apps/api/src/main.ts",
+      "name": "Launch Ghostfolio API (Debug)",
+      "type": "node-terminal",
       "request": "launch",
+      "command": "pnpm nx run api:serve:debug",
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "group": "Ghostfolio API",
+        "order": 2
+      }
+    },
+    {
+      "name": "Debug API Tests (Current File)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
       "runtimeArgs": [
-        "--nolazy",
-        "-r",
-        "ts-node/register",
-        "-r",
-        "${workspaceFolder}/tools/load-env.ts"
+        "nx",
+        "run",
+        "api:test",
+        "--",
+        "--testPathPattern",
+        "${fileBasename}"
       ],
-      "skipFiles": [
-        "${workspaceFolder}/node_modules/**/*.js",
-        "<node_internals>/**/*.js"
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "group": "Tests",
+        "order": 1
+      }
+    },
+    {
+      "name": "Debug Client Tests (Current File)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "nx",
+        "run",
+        "client:test",
+        "--",
+        "--testPathPattern",
+        "${fileBasename}"
       ],
-      "type": "node"
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "group": "Tests",
+        "order": 2
+      }
     }
   ]
 }

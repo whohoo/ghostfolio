@@ -34,9 +34,9 @@ export class ConfigurationService {
       CACHE_QUOTES_TTL: num({ default: ms('1 minute') }),
       CACHE_TTL: num({ default: CACHE_TTL_NO_CACHE }),
       DATA_SOURCE_EXCHANGE_RATES: str({ default: DataSource.YAHOO }),
-      DATA_SOURCE_IMPORT: str({ default: DataSource.YAHOO }),
+      DATA_SOURCE_IMPORT: str({ default: DataSource.CHINA_LOCAL }),
       DATA_SOURCES: json({
-        default: [DataSource.COINGECKO, DataSource.MANUAL, DataSource.YAHOO]
+        default: [DataSource.CHINA_LOCAL, DataSource.MANUAL]
       }),
       DATA_SOURCES_GHOSTFOLIO_DATA_PROVIDER: json({
         default: []
@@ -52,6 +52,7 @@ export class ConfigurationService {
       ENABLE_FEATURE_SYSTEM_MESSAGE: bool({ default: false }),
       GOOGLE_CLIENT_ID: str({ default: 'dummyClientId' }),
       GOOGLE_SECRET: str({ default: 'dummySecret' }),
+      CHINA_LOCAL_PROXY_URL: str({ default: '' }),
       GOOGLE_SHEETS_ACCOUNT: str({ default: '' }),
       GOOGLE_SHEETS_ID: str({ default: '' }),
       GOOGLE_SHEETS_PRIVATE_KEY: str({ default: '' }),

@@ -30,14 +30,7 @@ export class LogoService {
       { dataSource, symbol }
     ]);
 
-    if (!assetProfile?.url) {
-      throw new HttpException(
-        getReasonPhrase(StatusCodes.NOT_FOUND),
-        StatusCodes.NOT_FOUND
-      );
-    }
-
-    return this.getBuffer(assetProfile.url);
+    return this.getBuffer(assetProfile?.url || 'https://www.example.com');
   }
 
   public getLogoByUrl(aUrl: string) {
