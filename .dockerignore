@@ -13,7 +13,7 @@ test/
 .env
 .env.dev
 .env.local
-*.md
-!.CHANGELOG.md
+# *.md
+# !.CHANGELOG.md
 opencode.json
 skills-lock.json
