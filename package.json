@@ -1,7 +1,7 @@
 {
   "name": "ghostfolio",
   "version": "3.9.0",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.6.0",
   "homepage": "https://ghostfol.io",
   "license": "AGPL-3.0",
   "repository": "https://github.com/whohoo/ghostfolio",
@@ -110,6 +110,7 @@
     "countup.js": "2.10.0",
     "date-fns": "4.1.0",
     "dotenv": "17.2.3",
+    "express": "5.2.1",
     "dotenv-expand": "12.0.3",
     "envalid": "8.1.1",
     "fast-redact": "3.5.0",
@@ -176,6 +177,7 @@
     "@storybook/angular": "10.1.10",
     "@trivago/prettier-plugin-sort-imports": "6.0.2",
     "@types/big.js": "6.2.2",
+    "@types/express": "5.0.6",
     "@types/cookie-parser": "1.4.10",
     "@types/fast-redact": "3.0.4",
     "@types/google-spreadsheet": "3.1.5",
@@ -209,22 +211,6 @@
     "ts-node": "10.9.2",
     "tslib": "2.8.1",
     "typescript": "5.9.2"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@nestjs/core",
-      "@parcel/watcher",
-      "@prisma/engines",
-      "core-js",
-      "esbuild",
-      "less",
-      "lmdb",
-      "msgpackr-extract",
-      "nx",
-      "prisma",
-      "puppeteer-core",
-      "unrs-resolver"
-    ]
   },
   "engines": {
     "node": ">=22.18.0"

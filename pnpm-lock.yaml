@@ -178,6 +178,9 @@ importers:
       envalid:
         specifier: 8.1.1
         version: 8.1.1
+      express:
+        specifier: 5.2.1
+        version: 5.2.1
       fast-redact:
         specifier: 3.5.0
         version: 3.5.0
@@ -368,6 +371,9 @@ importers:
       '@types/cookie-parser':
         specifier: 1.4.10
         version: 1.4.10(@types/express@5.0.6)
+      '@types/express':
+        specifier: 5.0.6
+        version: 5.0.6
       '@types/fast-redact':
         specifier: 3.0.4
         version: 3.0.4
@@ -22850,7 +22856,7 @@ snapshots:
 
   '@types/serve-index@1.9.4':
     dependencies:
-      '@types/express': 4.17.25
+      '@types/express': 5.0.6
 
   '@types/serve-static@1.15.10':
     dependencies:
