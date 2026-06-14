@@ -48,3 +48,8 @@
 | ------ | ------------------------------------------ |
 | code   | 必填, 两位 ISO 国家代码，如 CN、US         |
 | weight | 可选, 权重，ETF 分散时小于 1，股票通常为 1 |
+
+## 定时任务
+
+1. runEveryHourAtRandomMinute — 每小时随机分钟执行，调用 gather7Days()，抓取所有活跃资产近 7 天的历史市场数据
+2. runEverySundayAtTwelvePm — 每周日中午 12 点执行，抓取所有超过 60 天未更新的活跃资产的资产简介（Asset Profile）
