@@ -4,7 +4,7 @@
   "packageManager": "pnpm@10.33.0",
   "homepage": "https://ghostfol.io",
   "license": "AGPL-3.0",
-  "repository": "https://github.com/ghostfolio/ghostfolio",
+  "repository": "https://github.com/whohoo/ghostfolio",
   "scripts": {
     "affected": "nx affected",
     "affected:apps": "nx affected:apps",
