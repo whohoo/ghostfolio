@@ -20,6 +20,7 @@ COPY ./CHANGELOG.md CHANGELOG.md
 COPY ./LICENSE LICENSE
 COPY ./package.json package.json
 COPY ./pnpm-lock.yaml pnpm-lock.yaml
+COPY ./pnpm-workspace.yaml pnpm-workspace.yaml
 COPY ./prisma/schema.prisma prisma/
 
 RUN pnpm install
