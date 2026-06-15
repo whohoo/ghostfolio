@@ -180,7 +180,7 @@ export class DataProviderService implements OnModuleInit {
 
     if (!dataSource) {
       this.logger.warn(
-        `Invalid DATA_SOURCE_EXCHANGE_RATES=\"${configuredDataSource}\". Falling back to ${DataSource.YAHOO}.`
+        `Invalid DATA_SOURCE_EXCHANGE_RATES="${configuredDataSource}". Falling back to ${DataSource.YAHOO}.`
       );
       return DataSource.YAHOO;
     }
@@ -195,7 +195,7 @@ export class DataProviderService implements OnModuleInit {
 
     if (!dataSource) {
       this.logger.warn(
-        `Invalid DATA_SOURCE_IMPORT=\"${configuredDataSource}\". Falling back to ${DataSource.CHINA_LOCAL}.`
+        `Invalid DATA_SOURCE_IMPORT="${configuredDataSource}". Falling back to ${DataSource.CHINA_LOCAL}.`
       );
       return DataSource.CHINA_LOCAL;
     }
