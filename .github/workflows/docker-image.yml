@@ -2,8 +2,8 @@ name: Docker image CD
 
 on:
   push:
-    tags:
-      - '*.*.*'
+    branches:
+      - 'ghcr'
   pull_request:
     branches:
       - 'main'
