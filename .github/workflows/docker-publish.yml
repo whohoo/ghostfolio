@@ -1,0 +1,76 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - staging
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Docker image tag'
+        required: false
+        default: 'dev'
+
+env:
+  REGISTRY: ${{ vars.REGISTRY_URL }}
+  REGISTRY_NAMESPACE: ${{ vars.REGISTRY_NAMESPACE }}
+  # 记得修改为你的镜像名称
+  IMAGE_NAME: ghostfolio
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set image tag
+        id: set_tag
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "IMAGE_TAG_NAME=latest" >> $GITHUB_ENV
+          else
+            echo "IMAGE_TAG_NAME=dev" >> $GITHUB_ENV
+          fi
+
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ vars.REGISTRY_URL }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push app image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_NAME }}
+          # cache-from: type=registry,ref=${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_NAME }}
+          # cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+      - name: Tag with git tag and push
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          docker pull ${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          docker tag \
+            ${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest \
+            ${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          docker push ${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
