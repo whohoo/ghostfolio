@@ -140,6 +140,10 @@ export class DataProviderService implements OnModuleInit {
   }
 
   public getDataProvider(providerName: DataSource) {
+    if (!providerName) {
+      throw new Error(`Invalid data provider name: ${String(providerName)}.`);
+    }
+
     for (const dataProviderInterface of this.dataProviderInterfaces) {
       if (this.dataProviderMapping[dataProviderInterface.getName()]) {
         const mappedDataProviderInterface = this.dataProviderInterfaces.find(
@@ -161,17 +165,42 @@ export class DataProviderService implements OnModuleInit {
       }
     }
 
-    throw new Error('No data provider has been found.');
+    throw new Error(
+      `No data provider has been found for ${providerName}. Available providers: ${this.dataProviderInterfaces
+        .map((interfaceItem) => interfaceItem.getName())
+        .join(', ')}.`
+    );
   }
 
   public getDataSourceForExchangeRates(): DataSource {
-    return DataSource[
-      this.configurationService.get('DATA_SOURCE_EXCHANGE_RATES')
-    ];
+    const configuredDataSource = this.configurationService.get(
+      'DATA_SOURCE_EXCHANGE_RATES'
+    );
+    const dataSource = DataSource[configuredDataSource];
+
+    if (!dataSource) {
+      this.logger.warn(
+        `Invalid DATA_SOURCE_EXCHANGE_RATES=\"${configuredDataSource}\". Falling back to ${DataSource.YAHOO}.`
+      );
+      return DataSource.YAHOO;
+    }
+
+    return dataSource;
   }
 
   public getDataSourceForImport(): DataSource {
-    return DataSource[this.configurationService.get('DATA_SOURCE_IMPORT')];
+    const configuredDataSource =
+      this.configurationService.get('DATA_SOURCE_IMPORT');
+    const dataSource = DataSource[configuredDataSource];
+
+    if (!dataSource) {
+      this.logger.warn(
+        `Invalid DATA_SOURCE_IMPORT=\"${configuredDataSource}\". Falling back to ${DataSource.CHINA_LOCAL}.`
+      );
+      return DataSource.CHINA_LOCAL;
+    }
+
+    return dataSource;
   }
 
   public async getDataSources(): Promise<DataSource[]> {
