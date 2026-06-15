@@ -87,6 +87,7 @@
     "@openrouter/ai-sdk-provider": "2.9.0",
     "@prisma/adapter-pg": "7.8.0",
     "@prisma/client": "7.8.0",
+    "@prisma/config": "7.8.0",
     "@simplewebauthn/browser": "13.2.2",
     "@simplewebauthn/server": "13.2.2",
     "ai": "6.0.174",

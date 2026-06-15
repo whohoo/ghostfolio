@@ -1,0 +1,19 @@
+name: ghostfolio
+services:
+  ghostfolio:
+    build:
+      context: ../
+      dockerfile: Dockerfile-cn
+    image: ghostfolio/ghostfolio:local
+    container_name: ghostfolio
+    restart: unless-stopped
+    init: true
+    entrypoint: ['/bin/sh', '-c', '--', 'while true; do sleep 30; done;']
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    env_file:
+      - ../.env
+    ports:
+      - 3333:3333
