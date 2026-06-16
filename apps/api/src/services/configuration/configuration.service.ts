@@ -51,7 +51,13 @@ export class ConfigurationService {
       ENABLE_FEATURE_SYSTEM_MESSAGE: bool({ default: false }),
       GOOGLE_CLIENT_ID: str({ default: 'dummyClientId' }),
       GOOGLE_SECRET: str({ default: 'dummySecret' }),
-      CHINA_LOCAL_PROXY_URL: str({ default: '' }),
+      CN_STOCK_PROXY_URL: str({
+        default: process.env.CN_STOCK_PROXY_URL || ''
+      }),
+      CN_FUND_PROXY_URL: str({
+        default:
+          process.env.CN_FUND_PROXY_URL || process.env.CN_STOCK_PROXY_URL || ''
+      }),
       GOOGLE_SHEETS_ACCOUNT: str({ default: '' }),
       GOOGLE_SHEETS_ID: str({ default: '' }),
       GOOGLE_SHEETS_PRIVATE_KEY: str({ default: '' }),

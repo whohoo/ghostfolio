@@ -20,32 +20,15 @@ import { DataSource, SymbolProfile } from '@prisma/client';
 import { addDays, format, isSameDay } from 'date-fns';
 
 @Injectable()
-export class ChinaLocalService implements DataProviderInterface {
-  private readonly logger = new Logger(ChinaLocalService.name);
+export class CnStockService implements DataProviderInterface {
+  private readonly logger = new Logger(CnStockService.name);
 
   private proxyUrl: string;
-
-  private stripNullBytes<T>(obj: T): T {
-    if (typeof obj === 'string') {
-      return obj.split('\u0000').join('') as T;
-    }
-    if (Array.isArray(obj)) {
-      return obj.map((item) => this.stripNullBytes(item)) as T;
-    }
-    if (obj && typeof obj === 'object') {
-      const cleaned = {} as Record<string, unknown>;
-      for (const [key, value] of Object.entries(obj)) {
-        cleaned[key] = this.stripNullBytes(value);
-      }
-      return cleaned as T;
-    }
-    return obj;
-  }
 
   public constructor(
     private readonly configurationService: ConfigurationService
   ) {
-    this.proxyUrl = this.configurationService.get('CHINA_LOCAL_PROXY_URL');
+    this.proxyUrl = this.configurationService.get('CN_STOCK_PROXY_URL');
   }
 
   public canHandle() {
@@ -90,9 +73,9 @@ export class ChinaLocalService implements DataProviderInterface {
 
   public getDataProviderInfo(): DataProviderInfo {
     return {
-      dataSource: DataSource.CHINA_LOCAL,
+      dataSource: DataSource.CN_STOCK,
       isPremium: false,
-      name: 'China Local',
+      name: 'China Stock',
       url: ''
     };
   }
@@ -102,9 +85,7 @@ export class ChinaLocalService implements DataProviderInterface {
     requestTimeout = this.configurationService.get('REQUEST_TIMEOUT'),
     symbol,
     to
-  }: GetDividendsParams): Promise<{
-    [date: string]: DataProviderHistoricalResponse;
-  }> {
+  }: GetDividendsParams) {
     if (isSameDay(from, to)) {
       to = addDays(to, 1);
     }
@@ -210,7 +191,7 @@ export class ChinaLocalService implements DataProviderInterface {
   }
 
   public getName(): DataSource {
-    return DataSource.CHINA_LOCAL;
+    return DataSource.CN_STOCK;
   }
 
   public async getQuotes({
@@ -292,5 +273,21 @@ export class ChinaLocalService implements DataProviderInterface {
 
       return { items: [] };
     }
+  }
+  private stripNullBytes<T>(obj: T): T {
+    if (typeof obj === 'string') {
+      return obj.split('\u0000').join('') as T;
+    }
+    if (Array.isArray(obj)) {
+      return obj.map((item) => this.stripNullBytes(item)) as T;
+    }
+    if (obj && typeof obj === 'object') {
+      const cleaned = {} as Record<string, unknown>;
+      for (const [key, value] of Object.entries(obj)) {
+        cleaned[key] = this.stripNullBytes(value);
+      }
+      return cleaned as T;
+    }
+    return obj;
   }
 }

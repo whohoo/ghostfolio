@@ -2,7 +2,8 @@ import { RedisCacheModule } from '@ghostfolio/api/app/redis-cache/redis-cache.mo
 import { ConfigurationModule } from '@ghostfolio/api/services/configuration/configuration.module';
 import { CryptocurrencyModule } from '@ghostfolio/api/services/cryptocurrency/cryptocurrency.module';
 import { AlphaVantageService } from '@ghostfolio/api/services/data-provider/alpha-vantage/alpha-vantage.service';
-import { ChinaLocalService } from '@ghostfolio/api/services/data-provider/china-local/china-local.service';
+import { CnFundService } from '@ghostfolio/api/services/data-provider/cn-fund/cn-fund.service';
+import { CnStockService } from '@ghostfolio/api/services/data-provider/cn-stock/cn-stock.service';
 import { CoinGeckoService } from '@ghostfolio/api/services/data-provider/coingecko/coingecko.service';
 import { EodHistoricalDataService } from '@ghostfolio/api/services/data-provider/eod-historical-data/eod-historical-data.service';
 import { FinancialModelingPrepService } from '@ghostfolio/api/services/data-provider/financial-modeling-prep/financial-modeling-prep.service';
@@ -37,8 +38,9 @@ import { DataProviderService } from './data-provider.service';
   ],
   providers: [
     AlphaVantageService,
+    CnFundService,
+    CnStockService,
     CoinGeckoService,
-    ChinaLocalService,
     DataProviderService,
     EodHistoricalDataService,
     FinancialModelingPrepService,
@@ -50,8 +52,9 @@ import { DataProviderService } from './data-provider.service';
     {
       inject: [
         AlphaVantageService,
+        CnFundService,
+        CnStockService,
         CoinGeckoService,
-        ChinaLocalService,
         EodHistoricalDataService,
         FinancialModelingPrepService,
         GhostfolioService,
@@ -63,8 +66,9 @@ import { DataProviderService } from './data-provider.service';
       provide: 'DataProviderInterfaces',
       useFactory: (
         alphaVantageService,
+        cnFundService,
+        cnStockService,
         coinGeckoService,
-        chinaLocalService,
         eodHistoricalDataService,
         financialModelingPrepService,
         ghostfolioService,
@@ -74,8 +78,9 @@ import { DataProviderService } from './data-provider.service';
         yahooFinanceService
       ) => [
         alphaVantageService,
+        cnFundService,
+        cnStockService,
         coinGeckoService,
-        chinaLocalService,
         eodHistoricalDataService,
         financialModelingPrepService,
         ghostfolioService,
