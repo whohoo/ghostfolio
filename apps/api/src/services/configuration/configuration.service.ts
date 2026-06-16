@@ -33,9 +33,9 @@ export class ConfigurationService {
       CACHE_QUOTES_TTL: num({ default: ms('1 minute') }),
       CACHE_TTL: num({ default: CACHE_TTL_NO_CACHE }),
       DATA_SOURCE_EXCHANGE_RATES: str({ default: DataSource.YAHOO }),
-      DATA_SOURCE_IMPORT: str({ default: DataSource.CHINA_LOCAL }),
+      DATA_SOURCE_IMPORT: str({ default: DataSource.YAHOO }),
       DATA_SOURCES: json({
-        default: [DataSource.CHINA_LOCAL, DataSource.MANUAL]
+        default: [DataSource.COINGECKO, DataSource.MANUAL, DataSource.YAHOO]
       }),
       DATA_SOURCES_GHOSTFOLIO_DATA_PROVIDER: json({
         default: []

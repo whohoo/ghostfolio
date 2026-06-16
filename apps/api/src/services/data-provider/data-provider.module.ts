@@ -10,6 +10,7 @@ import { GhostfolioService } from '@ghostfolio/api/services/data-provider/ghostf
 import { GoogleSheetsService } from '@ghostfolio/api/services/data-provider/google-sheets/google-sheets.service';
 import { ManualService } from '@ghostfolio/api/services/data-provider/manual/manual.service';
 import { RapidApiService } from '@ghostfolio/api/services/data-provider/rapid-api/rapid-api.service';
+import { YahooFinanceService } from '@ghostfolio/api/services/data-provider/yahoo-finance/yahoo-finance.service';
 import { FetchModule } from '@ghostfolio/api/services/fetch/fetch.module';
 import { MarketDataModule } from '@ghostfolio/api/services/market-data/market-data.module';
 import { PrismaModule } from '@ghostfolio/api/services/prisma/prisma.module';
@@ -45,6 +46,7 @@ import { DataProviderService } from './data-provider.service';
     GoogleSheetsService,
     ManualService,
     RapidApiService,
+    YahooFinanceService,
     {
       inject: [
         AlphaVantageService,
@@ -55,7 +57,8 @@ import { DataProviderService } from './data-provider.service';
         GhostfolioService,
         GoogleSheetsService,
         ManualService,
-        RapidApiService
+        RapidApiService,
+        YahooFinanceService
       ],
       provide: 'DataProviderInterfaces',
       useFactory: (
@@ -67,7 +70,8 @@ import { DataProviderService } from './data-provider.service';
         ghostfolioService,
         googleSheetsService,
         manualService,
-        rapidApiService
+        rapidApiService,
+        yahooFinanceService
       ) => [
         alphaVantageService,
         coinGeckoService,
@@ -77,7 +81,8 @@ import { DataProviderService } from './data-provider.service';
         ghostfolioService,
         googleSheetsService,
         manualService,
-        rapidApiService
+        rapidApiService,
+        yahooFinanceService
       ]
     },
     YahooFinanceDataEnhancerService
