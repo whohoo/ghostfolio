@@ -806,7 +806,6 @@ export class DataProviderService implements OnModuleInit {
         })
       );
     }
-
     const searchResults = await Promise.all(promises);
 
     for (const { items } of searchResults) {

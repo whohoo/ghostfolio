@@ -55,8 +55,7 @@ export class ConfigurationService {
         default: process.env.CN_STOCK_PROXY_URL || ''
       }),
       CN_FUND_PROXY_URL: str({
-        default:
-          process.env.CN_FUND_PROXY_URL || process.env.CN_STOCK_PROXY_URL || ''
+        default: process.env.CN_FUND_PROXY_URL || ''
       }),
       GOOGLE_SHEETS_ACCOUNT: str({ default: '' }),
       GOOGLE_SHEETS_ID: str({ default: '' }),
