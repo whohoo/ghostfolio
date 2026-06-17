@@ -10,7 +10,6 @@ import { Activity } from '@ghostfolio/common/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Account, DataSource, Type as ActivityType } from '@prisma/client';
-import { isFinite } from 'lodash';
 import { parse as csvToJson } from 'papaparse';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -50,7 +49,7 @@ export class ImportActivitiesService {
     assetProfiles: CreateAssetProfileWithMarketDataDto[];
   }> {
     const content = csvToJson(fileContent, {
-      dynamicTyping: true,
+      dynamicTyping: false,
       header: true,
       skipEmptyLines: true
     }).data;
@@ -322,7 +321,7 @@ export class ImportActivitiesService {
     item = this.lowercaseKeys(item);
 
     for (const key of ImportActivitiesService.FEE_KEYS) {
-      if (isFinite(item[key])) {
+      if (item[key] !== '' && isFinite(item[key])) {
         return Math.abs(item[key]);
       }
     }
@@ -345,7 +344,7 @@ export class ImportActivitiesService {
     item = this.lowercaseKeys(item);
 
     for (const key of ImportActivitiesService.QUANTITY_KEYS) {
-      if (isFinite(item[key])) {
+      if (item[key] !== '' && isFinite(item[key])) {
         return Math.abs(item[key]);
       }
     }
@@ -429,7 +428,7 @@ export class ImportActivitiesService {
     item = this.lowercaseKeys(item);
 
     for (const key of ImportActivitiesService.UNIT_PRICE_KEYS) {
-      if (isFinite(item[key])) {
+      if (item[key] !== '' && isFinite(item[key])) {
         return Math.abs(item[key]);
       }
     }

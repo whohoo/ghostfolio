@@ -140,10 +140,6 @@ export class DataProviderService implements OnModuleInit {
   }
 
   public getDataProvider(providerName: DataSource) {
-    if (!providerName) {
-      throw new Error(`Invalid data provider name: ${String(providerName)}.`);
-    }
-
     for (const dataProviderInterface of this.dataProviderInterfaces) {
       if (this.dataProviderMapping[dataProviderInterface.getName()]) {
         const mappedDataProviderInterface = this.dataProviderInterfaces.find(
@@ -165,42 +161,17 @@ export class DataProviderService implements OnModuleInit {
       }
     }
 
-    throw new Error(
-      `No data provider has been found for ${providerName}. Available providers: ${this.dataProviderInterfaces
-        .map((interfaceItem) => interfaceItem.getName())
-        .join(', ')}.`
-    );
+    throw new Error('No data provider has been found.');
   }
 
   public getDataSourceForExchangeRates(): DataSource {
-    const configuredDataSource = this.configurationService.get(
-      'DATA_SOURCE_EXCHANGE_RATES'
-    );
-    const dataSource = DataSource[configuredDataSource];
-
-    if (!dataSource) {
-      this.logger.warn(
-        `Invalid DATA_SOURCE_EXCHANGE_RATES="${configuredDataSource}". Falling back to ${DataSource.YAHOO}.`
-      );
-      return DataSource.YAHOO;
-    }
-
-    return dataSource;
+    return DataSource[
+      this.configurationService.get('DATA_SOURCE_EXCHANGE_RATES')
+    ];
   }
 
   public getDataSourceForImport(): DataSource {
-    const configuredDataSource =
-      this.configurationService.get('DATA_SOURCE_IMPORT');
-    const dataSource = DataSource[configuredDataSource];
-
-    if (!dataSource) {
-      this.logger.warn(
-        `Invalid DATA_SOURCE_IMPORT="${configuredDataSource}". Falling back to ${DataSource.CN_STOCK}.`
-      );
-      return DataSource.CN_STOCK;
-    }
-
-    return dataSource;
+    return DataSource[this.configurationService.get('DATA_SOURCE_IMPORT')];
   }
 
   public async getDataSources(): Promise<DataSource[]> {
@@ -480,14 +451,7 @@ export class DataProviderService implements OnModuleInit {
       symbol: string;
     }>[] = [];
     for (const { dataSource, symbol } of assetProfileIdentifiers) {
-      let dataProvider: DataProviderInterface;
-
-      try {
-        dataProvider = this.getDataProvider(dataSource);
-      } catch {
-        continue;
-      }
-
+      const dataProvider = this.getDataProvider(dataSource);
       if (dataProvider.canHandle(symbol)) {
         if (symbol === `${DEFAULT_CURRENCY}USX`) {
           const data: {
@@ -806,6 +770,7 @@ export class DataProviderService implements OnModuleInit {
         })
       );
     }
+
     const searchResults = await Promise.all(promises);
 
     for (const { items } of searchResults) {
