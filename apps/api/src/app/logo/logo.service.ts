@@ -29,8 +29,7 @@ export class LogoService {
     const [assetProfile] = await this.symbolProfileService.getSymbolProfiles([
       { dataSource, symbol }
     ]);
-
-    return this.getBuffer(assetProfile?.url || 'https://www.example.com');
+    return this.getBuffer(assetProfile?.url || 'https://www.eastmoney.com/');
   }
 
   public getLogoByUrl(aUrl: string) {
@@ -40,7 +39,7 @@ export class LogoService {
   private async getBuffer(aUrl: string) {
     const blob = await this.fetchService
       .fetch(
-        `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${aUrl}&size=64`,
+        `https://t0.gstatic.cn/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${aUrl}&size=64`,
         {
           headers: { 'User-Agent': 'request' },
           signal: AbortSignal.timeout(
