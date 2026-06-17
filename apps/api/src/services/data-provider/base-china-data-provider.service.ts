@@ -7,6 +7,7 @@ import {
   GetQuotesParams,
   GetSearchParams
 } from '@ghostfolio/api/services/data-provider/interfaces/data-provider.interface';
+import { Environment } from '@ghostfolio/api/services/interfaces/environment.interface';
 import { DATE_FORMAT } from '@ghostfolio/common/helper';
 import {
   DataProviderHistoricalResponse,
@@ -291,6 +292,6 @@ export abstract class BaseChinaDataProviderService implements DataProviderInterf
   }
   public abstract getTestSymbol(): string;
 
-  protected abstract getProxyUrlKey(): string;
+  protected abstract getProxyUrlKey(): keyof Environment;
   protected abstract getDataSource(): DataSource;
 }

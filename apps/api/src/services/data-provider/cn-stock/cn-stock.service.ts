@@ -11,7 +11,7 @@ export class CnStockService extends BaseChinaDataProviderService {
   }
 
   protected getProxyUrlKey() {
-    return 'CN_STOCK_PROXY_URL';
+    return 'CN_STOCK_PROXY_URL' as const;
   }
 
   protected getDataSource() {

@@ -11,7 +11,7 @@ export class CnFundService extends BaseChinaDataProviderService {
   }
 
   protected getProxyUrlKey() {
-    return 'CN_FUND_PROXY_URL';
+    return 'CN_FUND_PROXY_URL' as const;
   }
 
   protected getDataSource() {
