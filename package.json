@@ -1,6 +1,6 @@
 {
   "name": "ghostfolio",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "homepage": "https://ghostfol.io",
   "license": "AGPL-3.0",
   "repository": "https://github.com/whohoo/ghostfolio",
@@ -138,7 +138,7 @@
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.1",
     "stripe": "21.0.1",
-    "svgmap": "2.19.3",
+    "svgmap": "2.21.0",
     "tablemark": "4.1.0",
     "twitter-api-v2": "1.29.0",
     "undici": "7.24.4",
