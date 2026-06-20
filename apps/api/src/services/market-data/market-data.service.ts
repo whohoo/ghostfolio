@@ -142,49 +142,52 @@ export class MarketDataService {
     dataSource,
     symbol
   }: AssetProfileIdentifier & { data: Prisma.MarketDataUpdateInput[] }) {
-    await this.prismaService.$transaction(async (prisma) => {
-      if (data.length > 0) {
-        let minTime = Infinity;
-        let maxTime = -Infinity;
+    await this.prismaService.$transaction(
+      async (prisma) => {
+        if (data.length > 0) {
+          let minTime = Infinity;
+          let maxTime = -Infinity;
 
-        for (const { date } of data) {
-          const time = (date as Date).getTime();
+          for (const { date } of data) {
+            const time = (date as Date).getTime();
 
-          if (time < minTime) {
-            minTime = time;
-          }
+            if (time < minTime) {
+              minTime = time;
+            }
 
-          if (time > maxTime) {
-            maxTime = time;
-          }
-        }
-
-        const minDate = new Date(minTime);
-        const maxDate = new Date(maxTime);
-
-        await prisma.marketData.deleteMany({
-          where: {
-            dataSource,
-            symbol,
-            date: {
-              gte: minDate,
-              lte: maxDate
+            if (time > maxTime) {
+              maxTime = time;
             }
           }
-        });
 
-        await prisma.marketData.createMany({
-          data: data.map(({ date, marketPrice, state }) => ({
-            dataSource,
-            symbol,
-            date: date as Date,
-            marketPrice: marketPrice as number,
-            state: state as MarketDataState
-          })),
-          skipDuplicates: true
-        });
-      }
-    });
+          const minDate = new Date(minTime);
+          const maxDate = new Date(maxTime);
+
+          await prisma.marketData.deleteMany({
+            where: {
+              dataSource,
+              symbol,
+              date: {
+                gte: minDate,
+                lte: maxDate
+              }
+            }
+          });
+
+          await prisma.marketData.createMany({
+            data: data.map(({ date, marketPrice, state }) => ({
+              dataSource,
+              symbol,
+              date: date as Date,
+              marketPrice: marketPrice as number,
+              state: state as MarketDataState
+            })),
+            skipDuplicates: true
+          });
+        }
+      },
+      { timeout: 30000 }
+    );
   }
 
   public async updateAssetProfileIdentifier(
@@ -258,6 +261,8 @@ export class MarketDataService {
       }
     );
 
-    return this.prismaService.$transaction(upsertPromises);
+    return this.prismaService.$transaction(upsertPromises, {
+      timeout: 30000
+    });
   }
 }

@@ -5,4 +5,5 @@
 /.nx/workspace-data
 /apps/client/src/polyfills.ts
 /dist
+/pnpm-lock.yaml
 /test/import
