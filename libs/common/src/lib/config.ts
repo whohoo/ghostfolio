@@ -5,15 +5,15 @@ import ms from 'ms';
 import { ColorScheme, DateRange } from './types';
 
 export const ghostfolioPrefix = 'GF';
+
+/* @deprecated */
 export const ghostfolioScraperApiSymbolPrefix = `_${ghostfolioPrefix}_`;
+
 export const ghostfolioFearAndGreedIndexDataSourceCryptocurrencies =
   DataSource.MANUAL;
 export const ghostfolioFearAndGreedIndexDataSourceStocks = DataSource.RAPID_API;
-export const ghostfolioFearAndGreedIndexSymbol = `${ghostfolioScraperApiSymbolPrefix}FEAR_AND_GREED_INDEX`;
 export const ghostfolioFearAndGreedIndexSymbolCryptocurrencies = `${ghostfolioPrefix}_FEAR_AND_GREED_INDEX_CRYPTOCURRENCIES`;
 export const ghostfolioFearAndGreedIndexSymbolStocks = `${ghostfolioPrefix}_FEAR_AND_GREED_INDEX_STOCKS`;
-
-export const locale = 'en-US';
 
 export const primaryColorHex = '#36cfcc';
 export const primaryColorRgb = {
@@ -85,10 +85,12 @@ export const DEFAULT_DATE_FORMAT_MONTH_YEAR = 'MMM yyyy';
 export const DEFAULT_DATE_RANGE: DateRange = 'max';
 export const DEFAULT_HOST = '0.0.0.0';
 export const DEFAULT_LANGUAGE_CODE = 'en';
+export const DEFAULT_LOCALE = 'en-US';
 export const DEFAULT_PAGE_SIZE = 50;
 export const DEFAULT_PORT = 3333;
 export const DEFAULT_PROCESSOR_GATHER_ASSET_PROFILE_CONCURRENCY = 1;
 export const DEFAULT_PROCESSOR_GATHER_HISTORICAL_MARKET_DATA_CONCURRENCY = 1;
+export const DEFAULT_PROCESSOR_GATHER_STATISTICS_CONCURRENCY = 1;
 export const DEFAULT_PROCESSOR_PORTFOLIO_SNAPSHOT_COMPUTATION_CONCURRENCY = 1;
 export const DEFAULT_PROCESSOR_PORTFOLIO_SNAPSHOT_COMPUTATION_TIMEOUT = 30000;
 

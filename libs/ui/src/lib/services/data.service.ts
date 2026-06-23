@@ -28,6 +28,8 @@ import {
   AiPromptResponse,
   ApiKeyResponse,
   AssetProfileIdentifier,
+  AssetProfileResponse,
+  AssetProfilesResponse,
   AssetResponse,
   BenchmarkMarketDataDetailsResponse,
   BenchmarkResponse,
@@ -39,7 +41,6 @@ import {
   ImportResponse,
   InfoItem,
   LookupResponse,
-  MarketDataDetailsResponse,
   MarketDataOfMarketsResponse,
   OAuthResponse,
   PlatformsResponse,
@@ -378,6 +379,42 @@ export class DataService {
     );
   }
 
+  public fetchAssetProfiles({
+    filters,
+    skip,
+    sortColumn,
+    sortDirection,
+    take
+  }: {
+    filters?: Filter[];
+    skip?: number;
+    sortColumn?: string;
+    sortDirection?: SortDirection;
+    take: number;
+  }) {
+    let params = this.buildFiltersAsQueryParams({ filters });
+
+    if (skip) {
+      params = params.append('skip', skip);
+    }
+
+    if (sortColumn) {
+      params = params.append('sortColumn', sortColumn);
+    }
+
+    if (sortDirection) {
+      params = params.append('sortDirection', sortDirection);
+    }
+
+    if (take) {
+      params = params.append('take', take);
+    }
+
+    return this.http.get<AssetProfilesResponse>('/api/v1/asset-profiles', {
+      params
+    });
+  }
+
   public fetchBenchmarkForUser({
     dataSource,
     filters,
@@ -442,10 +479,7 @@ export class DataService {
   public fetchHoldingDetail({
     dataSource,
     symbol
-  }: {
-    dataSource: DataSource;
-    symbol: string;
-  }): Observable<
+  }: AssetProfileIdentifier): Observable<
     Omit<PortfolioHoldingResponse, 'dateOfFirstActivity'> & {
       dateOfFirstActivity: Date | undefined;
     }
@@ -504,17 +538,15 @@ export class DataService {
   public fetchMarketDataBySymbol({
     dataSource,
     symbol
-  }: {
-    dataSource: DataSource;
-    symbol: string;
-  }): Observable<MarketDataDetailsResponse> {
+  }: AssetProfileIdentifier): Observable<AssetProfileResponse> {
     return this.http
-      .get<any>(`/api/v1/market-data/${dataSource}/${symbol}`)
+      .get<any>(`/api/v1/asset-profiles/${dataSource}/${symbol}`)
       .pipe(
         map((data) => {
           for (const item of data.marketData) {
             item.date = parseISO(item.date);
           }
+
           return data;
         })
       );
@@ -818,11 +850,7 @@ export class DataService {
     dataSource,
     marketData,
     symbol
-  }: {
-    dataSource: DataSource;
-    marketData: UpdateBulkMarketDataDto;
-    symbol: string;
-  }) {
+  }: { marketData: UpdateBulkMarketDataDto } & AssetProfileIdentifier) {
     const url = `/api/v1/market-data/${dataSource}/${symbol}`;
 
     return this.http.post<MarketData>(url, marketData);
