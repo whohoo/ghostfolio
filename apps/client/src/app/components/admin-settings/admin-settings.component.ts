@@ -163,7 +163,7 @@ export class GfAdminSettingsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(({ dataProviders, settings }) => {
         const filteredProviders = dataProviders.filter(({ dataSource }) => {
-          return dataSource !== 'MANUAL';
+          return dataSource !== 'GHOSTFOLIO' && dataSource !== 'MANUAL';
         });
 
         this.dataSource = new MatTableDataSource(filteredProviders);
