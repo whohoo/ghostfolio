@@ -17,3 +17,4 @@ test/
 # !.CHANGELOG.md
 opencode.json
 skills-lock.json
+.config/prisma.ts
