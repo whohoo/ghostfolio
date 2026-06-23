@@ -9,16 +9,14 @@ export class CnStockService extends BaseChinaDataProviderService {
   constructor(configurationService: ConfigurationService) {
     super(configurationService);
   }
-
+  public getTestSymbol() {
+    return '600519';
+  }
   protected getProxyUrlKey() {
     return 'CN_STOCK_PROXY_URL' as const;
   }
 
   protected getDataSource() {
     return DataSource.CN_STOCK;
-  }
-
-  public getTestSymbol() {
-    return '600519';
   }
 }

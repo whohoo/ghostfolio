@@ -9,16 +9,14 @@ export class CnFundService extends BaseChinaDataProviderService {
   constructor(configurationService: ConfigurationService) {
     super(configurationService);
   }
-
+  public getTestSymbol() {
+    return '159919';
+  }
   protected getProxyUrlKey() {
     return 'CN_FUND_PROXY_URL' as const;
   }
 
   protected getDataSource() {
     return DataSource.CN_FUND;
-  }
-
-  public getTestSymbol() {
-    return '159919';
   }
 }
