@@ -46,7 +46,7 @@ COPY ./pnpm-workspace.yaml /ghostfolio/dist/apps/api/pnpm-workspace.yaml
 COPY package.json /ghostfolio/dist/apps/api/
 COPY .config /ghostfolio/dist/apps/api/.config/
 COPY .config/prisma.mjs /ghostfolio/dist/apps/api/prisma.config.mjs
-COPY prisma /ghostfolio/dist/apps/api/prisma/
+COPY prisma /ghostfolio/dist/apps/prisma/
 
 RUN pnpm install && pnpm run database:generate-typings
 
