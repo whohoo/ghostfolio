@@ -1,6 +1,7 @@
 import { DateQuery } from '@ghostfolio/api/app/portfolio/interfaces/date-query.interface';
 import { DataGatheringItem } from '@ghostfolio/api/services/interfaces/interfaces';
 import { PrismaService } from '@ghostfolio/api/services/prisma/prisma.service';
+import { DEFAULT_PROCESSOR_GATHER_HISTORICAL_MARKET_DATA_TIMEOUT } from '@ghostfolio/common/config';
 import { UpdateMarketDataDto } from '@ghostfolio/common/dtos';
 import { resetHours } from '@ghostfolio/common/helper';
 import { AssetProfileIdentifier } from '@ghostfolio/common/interfaces';
@@ -199,7 +200,7 @@ export class MarketDataService {
           });
         }
       },
-      { timeout: 30000 }
+      { timeout: DEFAULT_PROCESSOR_GATHER_HISTORICAL_MARKET_DATA_TIMEOUT }
     );
   }
 
