@@ -15,6 +15,7 @@
     "angular": "node --max_old_space_size=32768 ./node_modules/@angular/cli/bin/ng",
     "build:production": "nx run api:copy-assets && nx run api:build:production && nx run client:copy-assets && nx run client:build:production && nx run ui:build-storybook && pnpm replace-placeholders-in-build",
     "build:storybook": "nx run ui:build-storybook",
+    "csv-to-json": "npx ts-node --project tools/tsconfig.tools.json --require tsconfig-paths/register tools/csv-to-json.ts",
     "database:format-schema": "prisma format",
     "database:generate-typings": "prisma generate",
     "database:gui": "prisma studio",

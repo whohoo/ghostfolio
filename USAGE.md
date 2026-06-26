@@ -171,3 +171,53 @@ Date,Code,DataSource,Currency,Price,Quantity,Action,Fee,Note
 
 1. runEveryHourAtRandomMinute — 每小时随机分钟执行，调用 gather7Days()，抓取所有活跃资产近 7 天的历史市场数据
 2. runEverySundayAtTwelvePm — 每周日中午 12 点执行，抓取所有超过 60 天未更新的活跃资产的资产简介（Asset Profile）
+
+## 数据库操作
+
+### 创建 ghostfolio_db 数据库用户 ghostfolio
+
+```sql
+-- 1. 创建用户(角色),设置登录密码
+CREATE USER ghostfolio WITH PASSWORD '<替换成强密码>' LOGIN;
+
+-- 2. 如果数据库还没建,顺手把数据库的属主直接设为 ghostfolio
+--    (注意库名带横线,必须用双引号)
+CREATE DATABASE "ghostfolio-db" OWNER ghostfolio;
+
+-- 如果数据库已经存在了,改成属主授权即可:
+-- ALTER DATABASE "ghostfolio-db" OWNER TO ghostfolio;
+
+-- 3. 切换到该数据库执行后续授权(psql 里用 \c)
+-- \c "ghostfolio-db"
+
+-- 4. 数据库级权限:允许连接、创建临时表等
+GRANT ALL PRIVILEGES ON DATABASE "ghostfolio-db" TO ghostfolio;
+
+-- 5. schema 级权限:PG15+ 起 public schema 默认不允许普通用户 CREATE,需显式授权
+GRANT ALL ON SCHEMA public TO ghostfolio;
+
+-- 6. 已存在的表/序列/函数全部授权(如果是全新空库这步可省略)
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ghostfolio;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ghostfolio;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO ghostfolio;
+
+-- 7. 设置默认权限,确保以后 ghostfolio(或其他用户)新建的表/序列也自动授权给它
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON TABLES TO ghostfolio;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON SEQUENCES TO ghostfolio;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON FUNCTIONS TO ghostfolio;
+```
+
+### 数据库迁移
+
+```bash
+# 导出(进入容器或者本机装了 client 都行)
+docker exec -t postgresql pg_dump -U ghostfolio -d ghostfolio-db --no-owner -F p > ghostfolio_backup.sql
+gzip ghostfolio_backup.sql
+
+# 传输到另一台电脑后,导入
+gunzip ghostfolio_backup.sql.gz
+docker exec -i postgresql psql -U ghostfolio -d ghostfolio-db < ghostfolio_backup.sql
+```

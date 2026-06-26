@@ -38,6 +38,7 @@ import { authInterceptorProviders } from './app/core/auth.interceptor';
 import { httpResponseInterceptorProviders } from './app/core/http-response.interceptor';
 import { LanguageService } from './app/core/language.service';
 import { ModulePreloadService } from './app/core/module-preload.service';
+import './app/patch-csv-import';
 import { PageTitleStrategy } from './app/services/page-title.strategy';
 import { environment } from './environments/environment';
 
