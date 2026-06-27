@@ -26,6 +26,11 @@ export class SymbolProfileService {
   public async add(
     assetProfile: Prisma.SymbolProfileCreateInput
   ): Promise<SymbolProfile | never> {
+    // Add default countries for MANUAL data source
+    if (assetProfile.dataSource === 'MANUAL' && !assetProfile.countries) {
+      assetProfile.countries = [{ code: 'CN', weight: 1 }];
+    }
+
     return this.prismaService.symbolProfile.create({ data: assetProfile });
   }
 
