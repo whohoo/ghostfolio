@@ -5,13 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+### Added
+
+- Added support for filtering in the public access for portfolio sharing (experimental)
+- Set up the language localization for Japanese (`ja`)
+
+## 3.17.0 - 2026-06-26
+
+### Added
+
+- Added `zod` as a root dependency to resolve peer dependency warnings
 
 ### Changed
 
+- Improved the error message styling in the import activities dialog
 - Improved the grantee display in the access table to share the portfolio
 - Improved the country mapping for data providers
 - Upgraded `bull-board` from version `7.2.1` to `8.0.1`
+- Upgraded `Nx` from version `22.7.5` to `23.0.1`
 - Upgraded `prettier` from version `3.8.3` to `3.8.4`
 
 ### Fixed

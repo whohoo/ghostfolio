@@ -1,7 +1,6 @@
 import { NumberParser } from '@internationalized/number';
 import {
   Type as ActivityType,
-  DataSource,
   MarketData,
   Prisma,
   SymbolProfile,
@@ -24,6 +23,7 @@ import {
   es,
   fr,
   it,
+  ja,
   ko,
   nl,
   pl,
@@ -166,14 +166,6 @@ export function capitalize(aString: string) {
   return aString.charAt(0).toUpperCase() + aString.slice(1).toLowerCase();
 }
 
-export function decodeDataSource(encodedDataSource: string) {
-  if (encodedDataSource) {
-    return Buffer.from(encodedDataSource, 'hex').toString();
-  }
-
-  return undefined;
-}
-
 export function downloadAsFile({
   content,
   contentType = 'text/plain',
@@ -197,14 +189,6 @@ export function downloadAsFile({
   a.href = URL.createObjectURL(file);
   a.download = fileName;
   a.click();
-}
-
-export function encodeDataSource(aDataSource: DataSource) {
-  if (aDataSource) {
-    return Buffer.from(aDataSource, 'utf-8').toString('hex');
-  }
-
-  return undefined;
 }
 
 export function extractNumberFromString({
@@ -279,6 +263,8 @@ export function getDateFnsLocale(aLanguageCode?: string) {
     return fr;
   } else if (aLanguageCode === 'it') {
     return it;
+  } else if (aLanguageCode === 'ja') {
+    return ja;
   } else if (aLanguageCode === 'ko') {
     return ko;
   } else if (aLanguageCode === 'nl') {
