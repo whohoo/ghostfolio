@@ -12,10 +12,10 @@ import { Sector } from '@ghostfolio/common/interfaces/sector.interface';
 
 import { Injectable } from '@nestjs/common';
 import {
+  AssetProfileOverrides,
   DataSource,
   Prisma,
-  SymbolProfile,
-  SymbolProfileOverrides
+  SymbolProfile
 } from '@prisma/client';
 import { continents, countries } from 'countries-list';
 
@@ -90,12 +90,12 @@ export class SymbolProfileService {
     }
 
     return {
-      SymbolProfileOverrides: {
+      assetProfileOverrides: {
         upsert: {
           create:
-            data as Prisma.SymbolProfileOverridesCreateWithoutSymbolProfileInput,
+            data as Prisma.AssetProfileOverridesCreateWithoutSymbolProfileInput,
           update:
-            data as Prisma.SymbolProfileOverridesUpdateWithoutSymbolProfileInput
+            data as Prisma.AssetProfileOverridesUpdateWithoutSymbolProfileInput
         }
       }
     };
@@ -117,7 +117,7 @@ export class SymbolProfileService {
             select: { date: true },
             take: 1
           },
-          SymbolProfileOverrides: true
+          assetProfileOverrides: true
         },
         where: {
           OR: aAssetProfileIdentifiers.map(({ dataSource, symbol }) => {
@@ -142,7 +142,7 @@ export class SymbolProfileService {
           _count: {
             select: { activities: true, watchedBy: true }
           },
-          SymbolProfileOverrides: true
+          assetProfileOverrides: true
         },
         where: {
           id: {
@@ -179,6 +179,7 @@ export class SymbolProfileService {
     { dataSource, symbol }: AssetProfileIdentifier,
     {
       assetClass,
+      assetProfileOverrides,
       assetSubClass,
       comment,
       countries,
@@ -190,13 +191,13 @@ export class SymbolProfileService {
       scraperConfiguration,
       sectors,
       symbolMapping,
-      SymbolProfileOverrides,
       url
     }: Prisma.SymbolProfileUpdateInput
   ) {
     return this.prismaService.symbolProfile.update({
       data: {
         assetClass,
+        assetProfileOverrides,
         assetSubClass,
         comment,
         countries,
@@ -208,7 +209,6 @@ export class SymbolProfileService {
         scraperConfiguration,
         sectors,
         symbolMapping,
-        SymbolProfileOverrides,
         url
       },
       where: { dataSource_symbol: { dataSource, symbol } }
@@ -221,13 +221,13 @@ export class SymbolProfileService {
       activities?: {
         date: Date;
       }[];
-      SymbolProfileOverrides: SymbolProfileOverrides;
+      assetProfileOverrides: AssetProfileOverrides;
     })[]
   ): EnhancedSymbolProfile[] {
     return symbolProfiles.map((symbolProfile) => {
       const symbolProfileWithOverrides = applyAssetProfileOverrides(
         symbolProfile,
-        symbolProfile.SymbolProfileOverrides
+        symbolProfile.assetProfileOverrides
       );
 
       const item = {
@@ -257,7 +257,7 @@ export class SymbolProfileService {
       item.dateOfFirstActivity = symbolProfile.activities?.[0]?.date;
       delete item.activities;
 
-      delete item.SymbolProfileOverrides;
+      delete item.assetProfileOverrides;
 
       return item;
     });

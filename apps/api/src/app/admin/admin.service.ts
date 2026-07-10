@@ -21,6 +21,7 @@ import {
   AdminUsersResponse,
   AssetProfileIdentifier
 } from '@ghostfolio/common/interfaces';
+import { PropertyKey } from '@ghostfolio/common/types';
 
 import {
   BadRequestException,
@@ -298,7 +299,7 @@ export class AdminService {
         );
       }
     } else {
-      const symbolProfileOverrides = {
+      const assetProfileOverrides = {
         assetClass: assetClass as AssetClass,
         assetSubClass: assetSubClass as AssetSubClass,
         countries: countries as Prisma.JsonArray,
@@ -319,7 +320,7 @@ export class AdminService {
         symbolMapping,
         ...this.symbolProfileService.getAssetProfileUpdateInput(
           { dataSource, symbol },
-          symbolProfileOverrides
+          assetProfileOverrides
         )
       };
 
@@ -343,13 +344,18 @@ export class AdminService {
     }
   }
 
-  public async putSetting(key: string, value: string) {
+  public async putSetting(key: PropertyKey, value: string) {
     let response: Property;
 
     if (value) {
-      response = await this.propertyService.put({ key, value });
+      response = await this.propertyService.put({
+        key,
+        value
+      });
     } else {
-      response = await this.propertyService.delete({ key });
+      response = await this.propertyService.delete({
+        key
+      });
     }
 
     if (key === PROPERTY_IS_READ_ONLY_MODE && value === 'true') {

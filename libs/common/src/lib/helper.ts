@@ -1,10 +1,10 @@
 import { NumberParser } from '@internationalized/number';
 import {
   Type as ActivityType,
+  AssetProfileOverrides,
   MarketData,
   Prisma,
-  SymbolProfile,
-  SymbolProfileOverrides
+  SymbolProfile
 } from '@prisma/client';
 import { Big } from 'big.js';
 import { isISO4217CurrencyCode } from 'class-validator';
@@ -40,7 +40,8 @@ import {
   DERIVED_CURRENCIES,
   ghostfolioFearAndGreedIndexSymbolCryptocurrencies,
   ghostfolioFearAndGreedIndexSymbolStocks,
-  ghostfolioScraperApiSymbolPrefix
+  ghostfolioScraperApiSymbolPrefix,
+  TAG_ID_EXCLUDE_FROM_ANALYSIS
 } from './config';
 import {
   AssetProfileIdentifier,
@@ -55,7 +56,7 @@ export const DATE_FORMAT_YEARLY = 'yyyy';
 
 export function applyAssetProfileOverrides<T extends Partial<SymbolProfile>>(
   assetProfile: T,
-  assetProfileOverrides: SymbolProfileOverrides | null
+  assetProfileOverrides: AssetProfileOverrides | null
 ): T {
   if (!assetProfileOverrides) {
     return assetProfile;
@@ -417,6 +418,18 @@ export function interpolate(template: string, context: any) {
       context
     );
   });
+}
+
+export function isAccountExcluded(account: {
+  isExcluded: boolean;
+  tags?: { id: string }[];
+}) {
+  return (
+    account.isExcluded ||
+    account.tags?.some(({ id }) => {
+      return id === TAG_ID_EXCLUDE_FROM_ANALYSIS;
+    }) === true
+  );
 }
 
 export function isCurrency(aCurrency: string) {
