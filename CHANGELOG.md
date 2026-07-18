@@ -9,6 +9,103 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Improved the language localization for German (`de`)
+
+## 3.28.0 - 2026-07-17
+
+### Changed
+
+- Migrated the clone, create and edit activity dialogs to dedicated routes
+- Improved the language localization in the historical market data table of the admin control panel
+- Improved the language localization in the tag management of the admin control panel
+
+### Fixed
+
+- Fixed the missing validation of the tags when creating or updating an activity
+- Fixed the missing validation of the tags when updating the tags of a holding
+- Fixed an issue where the tags of an activity were lost if updating the activity failed
+- Fixed an issue where the dividends, the interest and the liabilities of asset profiles without market data have been valued at zero in the portfolio calculation
+- Fixed an issue where an error has been reported for asset profiles without market data which do not hold any units
+- Fixed an issue with removing a linked account from a buy, sell or dividend activity
+
+## 3.27.0 - 2026-07-15
+
+### Changed
+
+- Hardened the validation of the URL in the logo endpoint
+- Set the change detection strategy to `OnPush` in the about pages
+- Set the change detection strategy to `OnPush` in the accounts page
+- Set the change detection strategy to `OnPush` in the demo page
+- Set the change detection strategy to `OnPush` in the features page
+- Set the change detection strategy to `OnPush` in the Frequently Asked Questions (FAQ) pages
+- Set the change detection strategy to `OnPush` in the landing page
+- Set the change detection strategy to `OnPush` in the markets page
+- Set the change detection strategy to `OnPush` in the _Open Startup_ (`/open`) page
+- Set the change detection strategy to `OnPush` in the pricing page
+- Set the change detection strategy to `OnPush` in the public page
+- Set the change detection strategy to `OnPush` in the registration page
+- Set the change detection strategy to `OnPush` in the resources pages
+
+### Fixed
+
+- Fixed an issue where the symbol was not selected when cloning an activity
+- Resolved a startup error in data gathering caused by uninitialized data provider mappings
+- Improved the error handling in the `HtmlTemplateMiddleware`
+- Improved the error handling in the get quotes functionality of the _Financial Modeling Prep_ service
+
+## 3.26.0 - 2026-07-14
+
+### Added
+
+- Added the markets endpoint for the _Fear & Greed Index_ (market mood) to the `GHOSTFOLIO` data provider
+
+### Changed
+
+- Hardened the validation of the countries in the asset profile endpoints
+- Hardened the validation of the holdings in the asset profile endpoints
+- Hardened the validation of the scraper configuration in the asset profile endpoint
+- Hardened the validation of the sectors in the asset profile endpoints
+- Rounded the value of the _Fear & Greed Index_ (market mood) in the twitter bot service
+- Set the change detection strategy to `OnPush` in the _X-ray_ page
+- Deprecated `SymbolProfile` in favor of `assetProfile` in the activity interface
+- Upgraded `countries-list` from version `3.3.0` to `3.4.0`
+- Upgraded `Nx` from version `23.0.1` to `23.0.2`
+
+## 3.25.0 - 2026-07-12
+
+### Changed
+
+- Changed the default value of the `DATA_SOURCE_FEAR_AND_GREED_INDEX_STOCKS` environment variable from `RAPID_API` to `MANUAL`
+- Improved the language localization for Dutch (`nl`)
+- Upgraded `helmet` from version `7.0.0` to `8.2.0`
+
+### Fixed
+
+- Fixed the layout of the page tabs component by truncating long labels
+- Fixed the display of assets without a currency in the search results of the assistant
+- Fixed the display of assets without a currency in the symbol autocomplete component
+
+### Todo
+
+- **Breaking Change**: Set the environment variable `DATA_SOURCE_FEAR_AND_GREED_INDEX_STOCKS=RAPID_API` to keep using _Rapid API_ as the data source of the _Fear & Greed Index_ (market mood)
+
+## 3.24.0 - 2026-07-11
+
+### Added
+
+- Exposed the `DATA_SOURCE_FEAR_AND_GREED_INDEX_STOCKS` environment variable to set the data source of the _Fear & Greed Index_ (market mood)
+- Exposed the `ENABLE_FEATURE_RATE_LIMITING` environment variable to control rate limiting for authentication and sign-up endpoints
+- Exposed the `TRUST_PROXY` environment variable to determine the client IP address when running behind a reverse proxy
+
+### Changed
+
+- Rounded the value of the _Fear & Greed Index_ (market mood)
+- Improved the language localization for Korean (`ko`)
+
+## 3.23.0 - 2026-07-10
+
+### Changed
+
 - Migrated the deprecated `@nx/webpack:webpack` executor to `@nx/webpack/plugin`
 - Set the change detection strategy to `OnPush` in the about page
 - Set the change detection strategy to `OnPush` in the admin control panel
@@ -20,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set the change detection strategy to `OnPush` in the user account page
 - Set the change detection strategy to `OnPush` in the _Zen Mode_
 - Improved the language localization for Chinese (`zh`)
+- Improved the language localization for German (`de`)
 
 ## 3.22.0 - 2026-07-08
 

@@ -44,7 +44,7 @@ import { AssetProfileInvalidError } from './errors/asset-profile-invalid.error';
 export class DataProviderService implements OnModuleInit {
   private readonly logger = new Logger(DataProviderService.name);
 
-  private dataProviderMapping: { [dataProviderName: string]: string };
+  private dataProviderMapping: { [dataProviderName: string]: string } = {};
 
   public constructor(
     private readonly configurationService: ConfigurationService,
@@ -174,6 +174,12 @@ export class DataProviderService implements OnModuleInit {
   public getDataSourceForExchangeRates(): DataSource {
     return DataSource[
       this.configurationService.get('DATA_SOURCE_EXCHANGE_RATES')
+    ];
+  }
+
+  public getDataSourceForFearAndGreedIndexStocks(): DataSource {
+    return DataSource[
+      this.configurationService.get('DATA_SOURCE_FEAR_AND_GREED_INDEX_STOCKS')
     ];
   }
 
