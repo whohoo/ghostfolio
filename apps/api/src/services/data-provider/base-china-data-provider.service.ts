@@ -135,7 +135,7 @@ export abstract class BaseChinaDataProviderService implements DataProviderInterf
     symbol,
     to
   }: GetHistoricalParams): Promise<{
-    [symbol: string]: { [date: string]: DataProviderHistoricalResponse };
+    [date: string]: DataProviderHistoricalResponse;
   }> {
     if (isSameDay(from, to)) {
       to = addDays(to, 1);
@@ -170,11 +170,11 @@ export abstract class BaseChinaDataProviderService implements DataProviderInterf
         return {};
       }
 
-      return this.stripNullBytes(
-        (await response.json()) as {
-          [symbol: string]: { [date: string]: DataProviderHistoricalResponse };
-        }
-      );
+      const raw = (await response.json()) as {
+        [symbol: string]: { [date: string]: DataProviderHistoricalResponse };
+      };
+
+      return this.stripNullBytes(raw[symbol] ?? {});
     } catch (error) {
       if (error.message === 'No data found, symbol may be delisted') {
         throw error;

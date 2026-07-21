@@ -14,6 +14,7 @@ import { DataGatheringQueueModule } from '@ghostfolio/api/services/queues/data-g
 import { PortfolioSnapshotQueueModule } from '@ghostfolio/api/services/queues/portfolio-snapshot/portfolio-snapshot.module';
 import {
   BULL_BOARD_ROUTE,
+  SUPPORTED_LANGUAGE_CODES,
   THROTTLE_DEFAULT_LIMIT,
   THROTTLE_DEFAULT_TTL
 } from '@ghostfolio/common/config';
