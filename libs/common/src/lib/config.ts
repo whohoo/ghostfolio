@@ -6,9 +6,6 @@ import { ColorScheme, DateRange } from './types';
 
 export const ghostfolioPrefix = 'GF';
 
-/* @deprecated */
-export const ghostfolioScraperApiSymbolPrefix = `_${ghostfolioPrefix}_`;
-
 export const ghostfolioFearAndGreedIndexDataSourceCryptocurrencies =
   DataSource.MANUAL;
 export const ghostfolioFearAndGreedIndexSymbolCryptocurrencies = `${ghostfolioPrefix}_FEAR_AND_GREED_INDEX_CRYPTOCURRENCIES`;
@@ -116,13 +113,6 @@ export const DEFAULT_REDACTED_PATHS = [
   'activities[*].feeInAssetProfileCurrency',
   'activities[*].feeInBaseCurrency',
   'activities[*].quantity',
-
-  /* @deprecated */
-  'activities[*].SymbolProfile.symbolMapping',
-
-  /* @deprecated */
-  'activities[*].SymbolProfile.watchedByCount',
-
   'activities[*].value',
   'activities[*].valueInBaseCurrency',
   'balance',
@@ -153,13 +143,6 @@ export const DEFAULT_REDACTED_PATHS = [
   'platforms[*].balance',
   'platforms[*].valueInBaseCurrency',
   'quantity',
-
-  /* @deprecated */
-  'SymbolProfile.symbolMapping',
-
-  /* @deprecated */
-  'SymbolProfile.watchedByCount',
-
   'totalBalanceInBaseCurrency',
   'totalDividendInBaseCurrency',
   'totalInterestInBaseCurrency',
