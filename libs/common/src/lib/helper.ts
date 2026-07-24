@@ -2,6 +2,7 @@ import { NumberParser } from '@internationalized/number';
 import {
   Type as ActivityType,
   AssetProfileOverrides,
+  AssetSubClass,
   MarketData,
   Prisma,
   SymbolProfile
@@ -45,7 +46,8 @@ import {
 import {
   AssetProfileIdentifier,
   AssetProfileItem,
-  Benchmark
+  Benchmark,
+  PortfolioPosition
 } from './interfaces';
 import { BenchmarkTrend, ColorScheme } from './types';
 
@@ -172,6 +174,12 @@ export function canDeleteUser({
   return currentUserId !== userId;
 }
 
+export function canOpenHoldingDetail({
+  assetProfile
+}: Pick<PortfolioPosition, 'assetProfile'>): boolean {
+  return assetProfile?.assetSubClass !== AssetSubClass.CASH;
+}
+
 export function capitalize(aString: string) {
   return aString.charAt(0).toUpperCase() + aString.slice(1).toLowerCase();
 }
@@ -223,6 +231,19 @@ export function extractNumberFromString({
   } catch {
     return undefined;
   }
+}
+
+export function formatMonthAndYear({
+  date,
+  locale
+}: {
+  date: Date;
+  locale?: string;
+}) {
+  return new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    year: 'numeric'
+  }).format(date);
 }
 
 export function getAllActivityTypes(): ActivityType[] {
