@@ -162,10 +162,23 @@ Date,Code,DataSource,Currency,Price,Quantity,Action,Fee,Note
 ### 注意事项
 
 - **修改 Prisma schema 后需清除 Angular 缓存**：如果新增或修改了 `prisma/schema.prisma` 中的枚举（如 `DataSource`），运行 `npx prisma generate` 后，必须清除 Angular 编译缓存再重启 client，否则 `@prisma/client` 的改动不会生效：
-  ```bash
+
+```bash
   rm -rf .angular/cache node_modules/.cache
   # 然后重新启动 pnpm run start:client
-  ```
+```
+
+- **迁徙数据库**
+
+```bash
+pnpm database:migrate
+```
+
+- **跳过某条迁徙数据库**
+
+```bash
+pnpm prisma migrate resolve --applied 20260620163851_added_data_gathering_frequency_to_symbol_profile
+```
 
 ## 定时任务
 

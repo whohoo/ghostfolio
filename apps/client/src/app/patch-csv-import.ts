@@ -8,7 +8,7 @@ Papa.parse = function patchedParse<T>(
   input: string,
   config?: Papa.ParseConfig<T>
 ) {
-  if (config && config.dynamicTyping === true) {
+  if (config?.dynamicTyping === true) {
     config = {
       ...config,
       dynamicTyping: (field: string) => !SYMBOL_FIELDS.has(field.toLowerCase())
