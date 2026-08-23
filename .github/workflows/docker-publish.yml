@@ -58,6 +58,9 @@ jobs:
           context: .
           file: Dockerfile
           push: true
+          # 阿里云 ACR 不支持 attestation 清单 (application/vnd.oci.empty.v1+json)
+          provenance: false
+          sbom: false
           tags: |
             ${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_NAME }}
           # cache-from: type=registry,ref=${{ vars.REGISTRY_URL }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_NAME }}
