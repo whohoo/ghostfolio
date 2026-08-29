@@ -10,7 +10,7 @@ export class CnStockService extends BaseChinaDataProviderService {
     super(configurationService);
   }
   public getTestSymbol() {
-    return '600519';
+    return '600519'; //贵州茅台
   }
   protected getProxyUrlKey() {
     return 'CN_STOCK_PROXY_URL' as const;

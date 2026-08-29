@@ -10,7 +10,7 @@ export class CnFundService extends BaseChinaDataProviderService {
     super(configurationService);
   }
   public getTestSymbol() {
-    return '159919';
+    return '159919'; // 沪深300ETF嘉实
   }
   protected getProxyUrlKey() {
     return 'CN_FUND_PROXY_URL' as const;
