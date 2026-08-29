@@ -5,11 +5,123 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 3.63.0 - 2026-08-28
+
+### Added
+
+- Added the _Restricted view and manage_ permission to the access to share the portfolio (experimental)
+- Added a tool to get the activities of the portfolio to the server of the Model Context Protocol (MCP) (experimental)
 
 ### Changed
 
+- Improved the loading state of the symbol autocomplete component
+- Consolidated the duplicated translations of the asset classes and asset sub classes
+- Changed the holdings in the portfolio endpoints from a map keyed by the symbol to an array
+
+### Fixed
+
+- Improved the handling of indices in the _Financial Modeling Prep_ service
+- Fixed the portfolio calculation for holdings with the same symbol from different data sources
+
+## 3.62.0 - 2026-08-27
+
+### Added
+
+- Added an expiration date to the access to share the portfolio
+- Added the date of the last usage to the access to share the portfolio
+- Added support for a dedicated _OpenRouter_ engine for the `web_fetch` tool in the `FetchService`
+
+### Changed
+
+- Improved the language localization of the asset classes and asset sub classes in the holdings table of the _Copy AI prompt to clipboard for analysis_ action on the analysis page (experimental)
+- Improved the language localization of the asset classes and asset sub classes in the holdings table of the _Copy portfolio data to clipboard for AI prompt_ action on the analysis page (experimental)
+- Improved the logging of the `web_fetch` tool in the `FetchService`
+- Improved the language localization for German (`de`)
+
+### Fixed
+
+- Fixed the date of the exchange rates for instances running in a time zone other than UTC
+- Fixed the date of the chart in the holding detail dialog for instances running in a time zone other than UTC
+- Fixed the date of the historical market data gathering endpoint for a specific date for instances running in a time zone other than UTC
+- Fixed the validation of the date in the historical market data gathering endpoint for a specific date
+
+## 3.61.0 - 2026-08-25
+
+### Changed
+
+- Harmonized the icons and labels in the access table to share the portfolio
+- Improved the data source column in the historical market data table of the admin control panel by showing the name of the data provider
+- Migrated the create and edit access dialogs to dedicated routes
+- Improved the validation of activities and asset profiles when combining a custom asset profile symbol with a data source other than `MANUAL`
+- Improved the response of the historical market data gathering endpoint for a specific date
+- Introduced a timeout for the asset profile and the historical market data gathering jobs
+- Reduced the number of attempts of the asset profile and the historical market data gathering jobs
+- Improved the historical market data gathering by loading the asset profiles with recent market data in a single database query per run
+- Upgraded `bull-board` from version `8.6.0` to `9.0.1`
+
+### Fixed
+
+- Fixed the missing benchmark in the performance chart for calendar year date ranges on the analysis page
+- Fixed the country mapping of Macau in the _Financial Modeling Prep_ service
+- Fixed the asset profile and historical market data gathering of a symbol getting blocked permanently by a failed job by discarding the failed jobs
+- Fixed the asset profile data gathering of a symbol in the admin control panel by removing an existing job before enqueueing a new one
+- Fixed the date of the gathered historical market data for instances running in a time zone other than UTC
+- Fixed the repeated historical market data gathering for instances running in a time zone other than UTC
+
+## 3.60.0 - 2026-08-24
+
+### Added
+
+- Added `isCarriedForward` to the `MarketData` database schema
+
+### Changed
+
+- Improved the style of the table in the data providers management of the admin control panel
+- Improved the style of the table in the platform management of the admin control panel
+- Improved the style of the table in the tag management of the admin control panel
+- Improved the historical market data gathering by storing the market prices carried forward for the most recent dates without data from the data provider, distinguished by `isCarriedForward`
+- Introduced a cooldown of 12 hours for the historical market data gathering of a symbol by retaining the completed jobs
+
+### Fixed
+
+- Fixed the repeated historical market data gathering for symbols without weekend market data on Sundays and Mondays
+
+## 3.59.1 - 2026-08-23
+
+### Added
+
+- Added support to remove a received access on the access page
+- Extended the holdings table by the activities count in the _Copy AI prompt to clipboard for analysis_ action on the analysis page (experimental)
+- Extended the holdings table by the activities count in the _Copy portfolio data to clipboard for AI prompt_ action on the analysis page (experimental)
+- Extended the holdings table by the date of first activity in the _Copy AI prompt to clipboard for analysis_ action on the analysis page (experimental)
+- Extended the holdings table by the date of first activity in the _Copy portfolio data to clipboard for AI prompt_ action on the analysis page (experimental)
+- Added a server of the Model Context Protocol (MCP) with a tool to get the holdings of the portfolio (experimental)
+- Added the `type` to the `Access` database schema
+- Improved the language localization for German (`de`)
+
+### Fixed
+
+- Fixed an issue in the create or update access dialog where a public access could not be updated (experimental)
+- Fixed the performance calculation for dates without historical market data by carrying forward the market price from dates with activities
+
+## 3.58.0 - 2026-08-22
+
+### Changed
+
+- Improved the type filter of the activities table on the activities page to only list the activity types in use (experimental)
+- Improved the permission selector with icons in the create or update access dialog
+- Extracted the access level icon to a reusable component
+- Disabled the telemetry in the _Storybook_ setup
+- Improved the indexes of the order database table
 - Upgraded the `Node.js` engine from version `>=22.18.0` to `>=22.22.3` (`package.json`)
+
+### Fixed
+
+- Fixed the benchmark label in the tooltip of the benchmark comparator on the analysis page
+- Fixed the _Storybook_ setup by loading the `@angular/localize` polyfill centrally
+- Fixed an issue in the activities import where an unused custom asset profile was created if the related activities were not imported
+- Fixed the missing close price in the historical market data of the _Yahoo Finance_ service by falling back to the market price of the quote
+- Fixed the historical market data gathering by no longer storing the last known market price for the most recent dates without data from the data provider
 
 ## 3.57.0 - 2026-08-21
 

@@ -102,6 +102,7 @@ export const DEFAULT_DATE_RANGE: DateRange = 'max';
 export const DEFAULT_HOST = '0.0.0.0';
 export const DEFAULT_LANGUAGE_CODE = 'en';
 export const DEFAULT_LOCALE = 'en-US';
+export const DEFAULT_OPENROUTER_ENGINE_WEB_FETCH = 'openrouter';
 export const DEFAULT_PAGE_SIZE = 50;
 export const DEFAULT_PORT = 3333;
 export const DEFAULT_PROCESSOR_GATHER_ASSET_PROFILE_CONCURRENCY = 1;
@@ -198,27 +199,32 @@ export const E_MAIL_LINE_BREAK = '%0D%0A';
 
 export const GATHER_ASSET_PROFILE_PROCESS_JOB_NAME = 'GATHER_ASSET_PROFILE';
 export const GATHER_ASSET_PROFILE_PROCESS_JOB_OPTIONS: JobOptions = {
-  attempts: 12,
+  attempts: 6, // Retries after 1, 3, 7, 15 and 31 minutes (57 minutes in total)
   backoff: {
     delay: ms('1 minute'),
     type: 'exponential'
   },
-  removeOnComplete: true
+  removeOnComplete: true,
+  removeOnFail: true,
+  timeout: ms('5 minutes')
 };
 
+export const GATHER_HISTORICAL_MARKET_DATA_COOLDOWN_IN_MS = ms('12 hours');
 export const GATHER_HISTORICAL_MARKET_DATA_PROCESS_JOB_NAME =
   'GATHER_HISTORICAL_MARKET_DATA';
 export const GATHER_HISTORICAL_MARKET_DATA_PROCESS_JOB_OPTIONS: JobOptions = {
-  attempts: 12,
+  attempts: 6, // Retries after 1, 3, 7, 15 and 31 minutes (57 minutes in total)
   backoff: {
     delay: ms('1 minute'),
     type: 'exponential'
   },
-  removeOnComplete: true
+  removeOnComplete: true,
+  removeOnFail: true,
+  timeout: ms('5 minutes')
 };
 
 export const GATHER_STATISTICS_PROCESS_JOB_OPTIONS: JobOptions = {
-  attempts: 5,
+  attempts: 6, // Retries after 1, 3, 7, 15 and 31 minutes (57 minutes in total)
   backoff: {
     delay: ms('1 minute'),
     type: 'exponential'
@@ -265,6 +271,10 @@ export const HTTP_RESPONSE_MESSAGE_IMPERSONATION_UNRESOLVED =
 
 export const MAX_TOP_HOLDINGS = 50;
 
+export const MCP_ENDPOINT = '/mcp';
+export const MCP_MAX_ACTIVITIES = 100;
+export const MCP_REALM = 'Ghostfolio';
+
 export const NUMERICAL_PRECISION_THRESHOLD_3_FIGURES = 100;
 export const NUMERICAL_PRECISION_THRESHOLD_4_FIGURES = 1000;
 export const NUMERICAL_PRECISION_THRESHOLD_5_FIGURES = 10000;
@@ -290,6 +300,8 @@ export const PROPERTY_IS_DATA_GATHERING_ENABLED = 'IS_DATA_GATHERING_ENABLED';
 export const PROPERTY_IS_READ_ONLY_MODE = 'IS_READ_ONLY_MODE';
 export const PROPERTY_IS_USER_SIGNUP_ENABLED = 'IS_USER_SIGNUP_ENABLED';
 export const PROPERTY_MAX_DAILY_REQUESTS = 'MAX_DAILY_REQUESTS';
+export const PROPERTY_OPENROUTER_ENGINE_WEB_FETCH =
+  'OPENROUTER_ENGINE_WEB_FETCH';
 export const PROPERTY_OPENROUTER_MODEL = 'OPENROUTER_MODEL';
 export const PROPERTY_OPENROUTER_MODEL_WEB_FETCH = 'OPENROUTER_MODEL_WEB_FETCH';
 export const PROPERTY_PROXY_ROUTES = 'PROXY_ROUTES';

@@ -1,5 +1,7 @@
+import { utc } from '@date-fns/utc';
 import { NumberParser } from '@internationalized/number';
 import {
+  AccessType,
   Type as ActivityType,
   AssetProfileOverrides,
   AssetSubClass,
@@ -464,6 +466,10 @@ export function getStartOfUtcDate(aDate: Date) {
   return date;
 }
 
+export function getStartOfUtcDateOfYesterday() {
+  return subDays(getStartOfUtcDate(new Date()), 1, { in: utc });
+}
+
 export function getStringOrNull(aString: string | null | undefined) {
   const trimmedString = aString?.trim();
 
@@ -505,14 +511,6 @@ export function getTextColor(aColorScheme: ColorScheme) {
   return `${r}, ${g}, ${b}`;
 }
 
-export function getToday() {
-  const year = getYear(new Date());
-  const month = getMonth(new Date());
-  const day = getDate(new Date());
-
-  return new Date(Date.UTC(year, month, day));
-}
-
 export function getUtc(aDateString: string) {
   const [yearString, monthString, dayString] = aDateString.split('-');
 
@@ -523,14 +521,6 @@ export function getUtc(aDateString: string) {
       parseInt(dayString, 10)
     )
   );
-}
-
-export function getYesterday() {
-  const year = getYear(new Date());
-  const month = getMonth(new Date());
-  const day = getDate(new Date());
-
-  return subDays(new Date(Date.UTC(year, month, day)), 1);
 }
 
 export function hasGhostfolioPrefix(aSymbol: string) {
@@ -652,6 +642,21 @@ export function isUserSettingOfAuthenticatedUser(aKey: string) {
 
 export function isValidCustomAssetProfileSymbol(aSymbol: string) {
   return hasGhostfolioPrefix(aSymbol) || isUUID(aSymbol);
+}
+
+/**
+ * A private access is granted to a user, while a public access and an access
+ * of a client of the model context protocol are credentials on their own and
+ * have no grantee. A row which mixes both is neither, hence it is rejected.
+ */
+export function isValidGranteeOfAccess({
+  granteeUserId,
+  type
+}: {
+  granteeUserId?: string | null;
+  type: AccessType;
+}) {
+  return type === 'PRIVATE' ? !!granteeUserId : !granteeUserId;
 }
 
 export function isValidSearchQuery(aQuery: string) {
