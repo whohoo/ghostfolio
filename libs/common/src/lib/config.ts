@@ -125,6 +125,8 @@ export const DEFAULT_REDACTED_PATHS = [
   'accounts[*].value',
   'accounts[*].valueInBaseCurrency',
   'activities[*].account.comment',
+  'activities[*].assetProfile.comment',
+  'activities[*].assetProfile.scraperConfiguration',
   'activities[*].assetProfile.symbolMapping',
   'activities[*].assetProfile.watchedByCount',
   'activities[*].comment',
@@ -134,6 +136,8 @@ export const DEFAULT_REDACTED_PATHS = [
   'activities[*].quantity',
   'activities[*].value',
   'activities[*].valueInBaseCurrency',
+  'assetProfile.comment',
+  'assetProfile.scraperConfiguration',
   'assetProfile.symbolMapping',
   'assetProfile.watchedByCount',
   'balance',
@@ -160,6 +164,10 @@ export const DEFAULT_REDACTED_PATHS = [
   'holdings[*].valueInBaseCurrency',
   'interestInBaseCurrency',
   'investmentInBaseCurrencyWithCurrencyEffect',
+  'latestActivities[*].fee',
+  'latestActivities[*].quantity',
+  'latestActivities[*].value',
+  'latestActivities[*].valueInBaseCurrency',
   'netPerformance',
   'netPerformanceWithCurrencyEffect',
   'platforms[*].balance',
@@ -272,6 +280,7 @@ export const HTTP_RESPONSE_MESSAGE_IMPERSONATION_UNRESOLVED =
 export const MAX_TOP_HOLDINGS = 50;
 
 export const MCP_ENDPOINT = '/mcp';
+export const MCP_MAX_ACCOUNTS = 50;
 export const MCP_MAX_ACTIVITIES = 100;
 export const MCP_REALM = 'Ghostfolio';
 

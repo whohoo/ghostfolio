@@ -3,6 +3,7 @@ import {
   TAG_ID_EXCLUDE_FROM_ANALYSIS
 } from '@ghostfolio/common/config';
 import {
+  canApplyFiltersToAccess,
   extractNumberFromString,
   getCountryCodeFromCurrency,
   getNumberFormatGroup,
@@ -12,13 +13,29 @@ import {
   isCurrency,
   isCurrencySymbol,
   isSplitRatio,
+  isValidCurrencyCode,
   isValidCustomAssetProfileSymbol,
+  isValidDateAfter1970,
   isValidGranteeOfAccess,
   resolveUserSettings
 } from '@ghostfolio/common/helper';
 import { UserSettings } from '@ghostfolio/common/interfaces';
 
 describe('Helper', () => {
+  describe('Can apply filters to access', () => {
+    it('An access of the model context protocol', () => {
+      expect(canApplyFiltersToAccess({ type: 'MCP' })).toEqual(false);
+    });
+
+    it('A private access', () => {
+      expect(canApplyFiltersToAccess({ type: 'PRIVATE' })).toEqual(false);
+    });
+
+    it('A public access', () => {
+      expect(canApplyFiltersToAccess({ type: 'PUBLIC' })).toEqual(true);
+    });
+  });
+
   describe('Extract number from string', () => {
     it('Get decimal number', () => {
       expect(extractNumberFromString({ value: '999.99' })).toEqual(999.99);
@@ -356,6 +373,28 @@ describe('Helper', () => {
     });
   });
 
+  describe('Is valid currency code', () => {
+    it('Currency code in lower case', () => {
+      expect(isValidCurrencyCode('usd')).toEqual(false);
+    });
+
+    it('Currency code in upper case', () => {
+      expect(isValidCurrencyCode('USD')).toEqual(true);
+    });
+
+    it('Derived currency', () => {
+      expect(isValidCurrencyCode('GBp')).toEqual(true);
+    });
+
+    it('Empty currency code', () => {
+      expect(isValidCurrencyCode('')).toEqual(false);
+    });
+
+    it('Unknown currency code', () => {
+      expect(isValidCurrencyCode('XYZ')).toEqual(false);
+    });
+  });
+
   describe('Is valid custom asset profile symbol', () => {
     it('Empty symbol', () => {
       expect(isValidCustomAssetProfileSymbol('')).toEqual(false);
@@ -381,6 +420,56 @@ describe('Helper', () => {
       expect(
         isValidCustomAssetProfileSymbol('7e91b7d4-1430-4212-8380-289a06c9bbc1')
       ).toEqual(true);
+    });
+  });
+
+  describe('Is valid date after 1970', () => {
+    it('Date', () => {
+      expect(isValidDateAfter1970('2024-01-01')).toEqual(true);
+    });
+
+    it('Date and time', () => {
+      expect(isValidDateAfter1970('2024-01-01T12:00:00.000Z')).toEqual(true);
+    });
+
+    it('Date before 1970', () => {
+      expect(isValidDateAfter1970('0000-01-01')).toEqual(false);
+    });
+
+    it('Date object', () => {
+      expect(
+        isValidDateAfter1970(new Date('2024-01-01T12:00:00.000Z'))
+      ).toEqual(true);
+    });
+
+    it('Date object of 1970', () => {
+      expect(isValidDateAfter1970(new Date(0))).toEqual(false);
+    });
+
+    it('Date of 1970', () => {
+      expect(isValidDateAfter1970('1970-01-01T00:00:00.000Z')).toEqual(false);
+    });
+
+    // A date without a time is read in UTC, hence the result is the same in
+    // every time zone of the server
+    it('Date of 1970 without a time', () => {
+      expect(isValidDateAfter1970('1970-01-01')).toEqual(false);
+    });
+
+    it('Date after 1970 without a time', () => {
+      expect(isValidDateAfter1970('1970-01-02')).toEqual(true);
+    });
+
+    it('Date with an expanded year', () => {
+      expect(isValidDateAfter1970('+010000-01-01')).toEqual(true);
+    });
+
+    it('Empty date', () => {
+      expect(isValidDateAfter1970('')).toEqual(false);
+    });
+
+    it('Free-text date', () => {
+      expect(isValidDateAfter1970('yesterday')).toEqual(false);
     });
   });
 

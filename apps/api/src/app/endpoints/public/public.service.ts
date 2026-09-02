@@ -6,18 +6,14 @@ import { ConfigurationService } from '@ghostfolio/api/services/configuration/con
 import { ExchangeRateDataService } from '@ghostfolio/api/services/exchange-rate-data/exchange-rate-data.service';
 import { DEFAULT_CURRENCY } from '@ghostfolio/common/config';
 import { SubscriptionType } from '@ghostfolio/common/enums';
-import { getSum } from '@ghostfolio/common/helper';
+import { getSum, isCashPosition } from '@ghostfolio/common/helper';
 import {
   AccessSettings,
   PublicPortfolioResponse
 } from '@ghostfolio/common/interfaces';
 
 import { HttpException, Injectable } from '@nestjs/common';
-import {
-  AssetClass,
-  AssetSubClass,
-  Type as ActivityType
-} from '@prisma/client';
+import { Type as ActivityType } from '@prisma/client';
 import { Big } from 'big.js';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
@@ -81,25 +77,34 @@ export class PublicService {
       })
     ]);
 
-    const { activities } = await this.activitiesService.getActivities({
-      filters,
-      sortColumn: 'date',
-      sortDirection: 'desc',
-      take: 10,
-      types: [ActivityType.BUY, ActivityType.SELL],
-      userCurrency: user?.settings?.settings.baseCurrency ?? DEFAULT_CURRENCY,
-      userId: user.id,
-      withExcludedAccountsAndActivities: false
-    });
-
     // Experimental
-    const latestActivities = this.configurationService.get(
-      'ENABLE_FEATURE_SUBSCRIPTION'
-    )
-      ? []
-      : activities.map(
-          ({
-            assetProfile,
+    let latestActivities: PublicPortfolioResponse['latestActivities'] = [];
+
+    if (!this.configurationService.get('ENABLE_FEATURE_SUBSCRIPTION')) {
+      const { activities } = await this.activitiesService.getActivities({
+        filters,
+        sortColumn: 'date',
+        sortDirection: 'desc',
+        take: 10,
+        types: [ActivityType.BUY, ActivityType.SELL],
+        userCurrency: user?.settings?.settings.baseCurrency ?? DEFAULT_CURRENCY,
+        userId: user.id,
+        withExcludedAccountsAndActivities: false
+      });
+
+      latestActivities = activities.map(
+        ({
+          assetProfile,
+          currency,
+          date,
+          fee,
+          quantity,
+          type,
+          unitPrice,
+          value,
+          valueInBaseCurrency
+        }) => {
+          return {
             currency,
             date,
             fee,
@@ -107,21 +112,17 @@ export class PublicService {
             type,
             unitPrice,
             value,
-            valueInBaseCurrency
-          }) => {
-            return {
-              assetProfile,
-              currency,
-              date,
-              fee,
-              quantity,
-              type,
-              unitPrice,
-              value,
-              valueInBaseCurrency
-            };
-          }
-        );
+            valueInBaseCurrency,
+            assetProfile: {
+              currency: assetProfile.currency,
+              dataSource: assetProfile.dataSource,
+              name: assetProfile.name,
+              symbol: assetProfile.symbol
+            }
+          };
+        }
+      );
+    }
 
     Object.values(markets ?? {}).forEach((market) => {
       delete market.valueInBaseCurrency;
@@ -168,23 +169,19 @@ export class PublicService {
         assetProfile: {
           ...holding.assetProfile,
           assetClass:
-            hasDetails ||
-            holding.assetProfile.assetClass === AssetClass.LIQUIDITY
+            hasDetails || isCashPosition(holding.assetProfile)
               ? holding.assetProfile.assetClass
               : undefined,
           assetClassLabel:
-            hasDetails ||
-            holding.assetProfile.assetClass === AssetClass.LIQUIDITY
+            hasDetails || isCashPosition(holding.assetProfile)
               ? holding.assetProfile.assetClassLabel
               : undefined,
           assetSubClass:
-            hasDetails ||
-            holding.assetProfile.assetSubClass === AssetSubClass.CASH
+            hasDetails || isCashPosition(holding.assetProfile)
               ? holding.assetProfile.assetSubClass
               : undefined,
           assetSubClassLabel:
-            hasDetails ||
-            holding.assetProfile.assetSubClass === AssetSubClass.CASH
+            hasDetails || isCashPosition(holding.assetProfile)
               ? holding.assetProfile.assetSubClassLabel
               : undefined,
           holdings: holding.assetProfile.holdings?.map(

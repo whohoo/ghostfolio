@@ -5,6 +5,59 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Changed
+
+- Restricted the _Restricted view and manage_ permission of the access to share the portfolio to the Model Context Protocol (MCP) (experimental)
+
+### Fixed
+
+- Fixed the loading state of the accounts table on the accounts page
+- Fixed the loading state of the holdings table on the portfolio holdings page
+
+## 3.65.0 - 2026-08-31
+
+### Added
+
+- Added a tool to import activities into the portfolio to the server of the Model Context Protocol (MCP) (experimental)
+
+### Changed
+
+- Extended the access to share the portfolio to support the _Restricted view and manage_ permission (experimental)
+- Extended the tool to get the accounts of the portfolio in the server of the Model Context Protocol (MCP) to support the filtering by account (experimental)
+- Upgraded `replace-in-file` from version `8.4.0` to `9.0.0`
+- Upgraded `stripe` from version `22.3.2` to `22.5.0`
+- Upgraded `undici` from version `8.5.0` to `8.10.0`
+- Upgraded `uuid` from version `14.0.1` to `14.0.2`
+
+### Fixed
+
+- Fixed the cash positions being included in the by continent, by country and by sector charts on the allocations page and the public page
+- Fixed the allocations in percentage exceeding 100% in the restricted view
+- Fixed the portfolio calculation for holdings with activities before the first known historical market price by falling back to the unit price of the activity
+- Fixed the additional data point at the start of the chart in the holding detail dialog for instances running in a time zone other than UTC
+- Fixed the missing country mapping of _Virgin Islands (British)_ in the _Financial Modeling Prep_ service
+
+## 3.64.0 - 2026-08-30
+
+### Added
+
+- Added the support for the filters of the assistant to the accounts page
+- Added a tool to get the accounts of the portfolio to the server of the Model Context Protocol (MCP) (experimental)
+- Extended the `GET api/v1/account` endpoint by the filters `accounts`, `assetClasses` and `tags`
+
+### Changed
+
+- Restricted the support for filtering to the public access to share the portfolio (experimental)
+- Improved the language localization for German (`de`)
+- Upgraded `twitter-api-v2` from version `1.29.0` to `1.29.1`
+- Upgraded `zone.js` from version `0.16.1` to `0.16.2`
+
+### Fixed
+
+- Fixed the redaction of `fee`, `quantity`, `value` and `valueInBaseCurrency` in the latest activities of the public page (experimental)
+
 ## 3.63.0 - 2026-08-28
 
 ### Added
