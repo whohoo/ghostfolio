@@ -372,8 +372,6 @@ enum DataGatheringFrequency {
 enum DataSource {
   ALPHA_VANTAGE
   COINGECKO
-  CN_STOCK
-  CN_FUND
   EOD_HISTORICAL_DATA
   FINANCIAL_MODELING_PREP
   GHOSTFOLIO
@@ -381,6 +379,7 @@ enum DataSource {
   MANUAL
   RAPID_API
   YAHOO
+  CN_MARKET
 }
 
 enum MarketDataState {

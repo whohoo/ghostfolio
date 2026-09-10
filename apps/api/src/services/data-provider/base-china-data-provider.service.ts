@@ -75,10 +75,7 @@ export abstract class BaseChinaDataProviderService implements DataProviderInterf
     return {
       dataSource: this.getDataSource(),
       isPremium: false,
-      name:
-        this.getDataSource() === DataSource.CN_STOCK
-          ? 'China Stock'
-          : 'China Fund',
+      name: 'China Market',
       url: ''
     };
   }

@@ -5,18 +5,20 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from '@prisma/client';
 
 @Injectable()
-export class CnFundService extends BaseChinaDataProviderService {
+export class CnMarketService extends BaseChinaDataProviderService {
   constructor(configurationService: ConfigurationService) {
     super(configurationService);
   }
+
   public getTestSymbol() {
-    return '159919'; // 沪深300ETF嘉实
+    return '600519'; // 贵州茅台
   }
+
   protected getProxyUrlKey() {
-    return 'CN_FUND_PROXY_URL' as const;
+    return 'CN_MARKET_PROXY_URL' as const;
   }
 
   protected getDataSource() {
-    return DataSource.CN_FUND;
+    return DataSource.CN_MARKET;
   }
 }

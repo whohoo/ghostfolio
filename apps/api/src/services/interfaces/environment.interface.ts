@@ -64,6 +64,5 @@ export interface Environment extends CleanedEnvAccessors {
   TWITTER_ACCESS_TOKEN_SECRET: string;
   TWITTER_API_KEY: string;
   TWITTER_API_SECRET: string;
-  CN_STOCK_PROXY_URL: string;
-  CN_FUND_PROXY_URL: string;
+  CN_MARKET_PROXY_URL: string;
 }

@@ -2,8 +2,7 @@ import { RedisCacheModule } from '@ghostfolio/api/app/redis-cache/redis-cache.mo
 import { ConfigurationModule } from '@ghostfolio/api/services/configuration/configuration.module';
 import { CryptocurrencyModule } from '@ghostfolio/api/services/cryptocurrency/cryptocurrency.module';
 import { AlphaVantageService } from '@ghostfolio/api/services/data-provider/alpha-vantage/alpha-vantage.service';
-import { CnFundService } from '@ghostfolio/api/services/data-provider/cn-fund/cn-fund.service';
-import { CnStockService } from '@ghostfolio/api/services/data-provider/cn-stock/cn-stock.service';
+import { CnMarketService } from '@ghostfolio/api/services/data-provider/cn-market/cn-market.service';
 import { CoinGeckoService } from '@ghostfolio/api/services/data-provider/coingecko/coingecko.service';
 import { EodHistoricalDataService } from '@ghostfolio/api/services/data-provider/eod-historical-data/eod-historical-data.service';
 import { FinancialModelingPrepService } from '@ghostfolio/api/services/data-provider/financial-modeling-prep/financial-modeling-prep.service';
@@ -38,8 +37,7 @@ import { DataProviderService } from './data-provider.service';
   ],
   providers: [
     AlphaVantageService,
-    CnFundService,
-    CnStockService,
+    CnMarketService,
     CoinGeckoService,
     DataProviderService,
     EodHistoricalDataService,
@@ -52,8 +50,7 @@ import { DataProviderService } from './data-provider.service';
     {
       inject: [
         AlphaVantageService,
-        CnFundService,
-        CnStockService,
+        CnMarketService,
         CoinGeckoService,
         EodHistoricalDataService,
         FinancialModelingPrepService,
@@ -66,8 +63,7 @@ import { DataProviderService } from './data-provider.service';
       provide: 'DataProviderInterfaces',
       useFactory: (
         alphaVantageService,
-        cnFundService,
-        cnStockService,
+        cnMarketService,
         coinGeckoService,
         eodHistoricalDataService,
         financialModelingPrepService,
@@ -78,8 +74,7 @@ import { DataProviderService } from './data-provider.service';
         yahooFinanceService
       ) => [
         alphaVantageService,
-        cnFundService,
-        cnStockService,
+        cnMarketService,
         coinGeckoService,
         eodHistoricalDataService,
         financialModelingPrepService,
