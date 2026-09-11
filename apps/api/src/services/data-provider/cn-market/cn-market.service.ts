@@ -11,7 +11,7 @@ export class CnMarketService extends BaseChinaDataProviderService {
   }
 
   public getTestSymbol() {
-    return '600519'; // 贵州茅台
+    return '600519.SS'; // 贵州茅台
   }
 
   protected getProxyUrlKey() {
